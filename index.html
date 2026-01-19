@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terreno Premium en Renta | 3,473 m² | Corredor Audi Puebla</title>
     <meta name="description" content="Terreno estratégico de 3,473 m² en Rafael Lara Grajales, a 11 minutos de Planta AUDI México. Ideal para bodega, centro de distribución o plaza comercial. Trato directo con propietario.">
+    <meta property="og:title" content="Terreno 3,473 m² en Renta | Corredor Audi Puebla">
+    <meta property="og:description" content="Ubicación estratégica a 11 min de Planta AUDI. Trato directo con propietario.">
+    <meta property="og:image" content="https://blockchainstarter.nyc3.digitaloceanspaces.com/terreno/1576878732.jpg">
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗️</text></svg>">
 
     <style>
         :root {
@@ -63,7 +62,15 @@
             background-image: url('https://blockchainstarter.nyc3.digitaloceanspaces.com/terreno/1576878732.jpg');
             background-size: cover;
             background-position: center;
-            filter: brightness(0.4);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(26,54,93,0.7) 0%, rgba(26,54,93,0.85) 100%);
         }
 
         .hero-content {
@@ -85,6 +92,7 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
             margin-bottom: 1.5rem;
+            animation: fadeInDown 0.8s ease;
         }
 
         .hero h1 {
@@ -94,6 +102,7 @@
             color: white;
             line-height: 1.1;
             margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
         }
 
         .hero-subtitle {
@@ -101,6 +110,7 @@
             color: rgba(255,255,255,0.9);
             margin-bottom: 2rem;
             font-weight: 400;
+            animation: fadeInUp 0.8s ease 0.4s both;
         }
 
         .hero-stats {
@@ -109,10 +119,16 @@
             gap: 2rem;
             flex-wrap: wrap;
             margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease 0.6s both;
         }
 
         .stat {
             text-align: center;
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .stat-value {
@@ -134,6 +150,17 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.8s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .btn {
@@ -178,6 +205,7 @@
             left: 50%;
             transform: translateX(-50%);
             color: white;
+            z-index: 10;
             animation: bounce 2s infinite;
         }
 
@@ -274,6 +302,10 @@
         }
 
         /* Gallery Section */
+        .gallery {
+            background: white;
+        }
+
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -296,7 +328,7 @@
         }
 
         .gallery-item:hover img {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .gallery-item:nth-child(1) { grid-column: span 4; }
@@ -310,11 +342,8 @@
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: auto;
             }
-            .gallery-item:nth-child(1) { grid-column: span 2; }
-            .gallery-item:nth-child(2),
-            .gallery-item:nth-child(3),
-            .gallery-item:nth-child(4),
-            .gallery-item:nth-child(5) { grid-column: span 1; }
+            .gallery-item { grid-column: span 1 !important; height: 200px; }
+            .gallery-item:nth-child(1) { grid-column: span 2 !important; height: 250px; }
         }
 
         /* Video Section */
@@ -350,6 +379,48 @@
             left: 0;
             width: 100%;
             height: 100%;
+        }
+
+        /* Specs Section */
+        .specs {
+            background: var(--bg-alt);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .spec-card {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .spec-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .spec-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .spec-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
         }
 
         /* Location Section */
@@ -394,14 +465,15 @@
         }
 
         .location-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--bg-alt);
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            font-size: 1.25rem;
         }
 
         .location-detail strong {
@@ -428,33 +500,53 @@
             border: none;
         }
 
-        /* Specs Section */
-        .specs {
-            background: var(--bg-alt);
+        /* Benefits Section */
+        .benefits {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
 
-        .specs-grid {
+        .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
         }
 
-        .spec-card {
+        @media (max-width: 768px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
             background: white;
             padding: 1.5rem;
             border-radius: 12px;
-            text-align: center;
-            border: 1px solid var(--border);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .spec-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
+        .benefit-check {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: white;
+            font-weight: bold;
         }
 
-        .spec-label {
+        .benefit-text strong {
+            display: block;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .benefit-text span {
             color: var(--text-light);
             font-size: 0.9rem;
         }
@@ -464,6 +556,29 @@
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+
+        .cta .container {
+            position: relative;
+            z-index: 1;
         }
 
         .cta .section-title {
@@ -487,16 +602,21 @@
         .btn-whatsapp {
             background: #25D366;
             color: white;
+            font-size: 1.1rem;
+            padding: 1.25rem 2.5rem;
         }
 
         .btn-whatsapp:hover {
             background: #128C7E;
             transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
         }
 
         .btn-call {
             background: white;
             color: var(--primary);
+            font-size: 1.1rem;
+            padding: 1.25rem 2.5rem;
         }
 
         .btn-call:hover {
@@ -510,20 +630,22 @@
             align-items: center;
             justify-content: center;
             gap: 1rem;
+            flex-wrap: wrap;
             padding-top: 2rem;
             border-top: 1px solid rgba(255,255,255,0.2);
         }
 
         .owner-badge {
-            background: rgba(255,255,255,0.1);
-            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.15);
+            padding: 0.75rem 1.25rem;
             border-radius: 50px;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
         }
 
         /* Footer */
         footer {
-            background: var(--text);
+            background: #0f172a;
             color: rgba(255,255,255,0.7);
             padding: 2rem 1.5rem;
             text-align: center;
@@ -594,7 +716,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
             transition: all 0.3s ease;
             text-decoration: none;
         }
@@ -620,7 +742,11 @@
             }
 
             .hero-stats {
-                gap: 1.5rem;
+                gap: 1rem;
+            }
+
+            .stat {
+                padding: 1rem 1.5rem;
             }
 
             .stat-value {
@@ -630,12 +756,24 @@
             .feature-card {
                 padding: 1.5rem;
             }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-whatsapp, .btn-call {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
         }
 
         /* Print Styles */
         @media print {
             .floating-cta,
-            .scroll-indicator {
+            .scroll-indicator,
+            .lightbox {
                 display: none !important;
             }
 
@@ -649,8 +787,9 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <span class="hero-badge">Oportunidad de Inversión</span>
+            <span class="hero-badge">Arrendamiento a Largo Plazo</span>
             <h1>Terreno Estratégico en el Corredor Audi Puebla</h1>
             <p class="hero-subtitle">3,473 m² listos para desarrollo comercial o industrial en Rafael Lara Grajales</p>
 
@@ -660,8 +799,8 @@
                     <span class="stat-label">Metros Cuadrados</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-value">11</span>
-                    <span class="stat-label">Min. a Planta Audi</span>
+                    <span class="stat-value">11 min</span>
+                    <span class="stat-label">a Planta Audi</span>
                 </div>
                 <div class="stat">
                     <span class="stat-value">100%</span>
@@ -672,11 +811,11 @@
             <div class="hero-cta">
                 <a href="https://wa.me/522223456789?text=Hola,%20me%20interesa%20el%20terreno%20de%203,473%20m²%20en%20Rafael%20Lara%20Grajales" class="btn btn-primary" target="_blank">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    WhatsApp
+                    Contactar por WhatsApp
                 </a>
                 <a href="#video" class="btn btn-outline">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    Ver Video
+                    Ver Video del Terreno
                 </a>
             </div>
         </div>
@@ -694,7 +833,7 @@
             <div class="section-header">
                 <span class="section-label">Ventajas Competitivas</span>
                 <h2 class="section-title">¿Por Qué Este Terreno?</h2>
-                <p class="section-desc">Ubicación privilegiada con características únicas para maximizar su inversión</p>
+                <p class="section-desc">Ubicación privilegiada con características únicas para maximizar su operación</p>
             </div>
 
             <div class="features-grid">
@@ -718,8 +857,8 @@
 
                 <div class="feature-card">
                     <div class="feature-icon">🤝</div>
-                    <h3>Trato Directo</h3>
-                    <p>Negociación directa con el propietario. Condiciones de arrendamiento flexibles y toma de decisiones rápida. Sin intermediarios.</p>
+                    <h3>Trato Directo con Propietario</h3>
+                    <p>Negociación directa sin intermediarios. Condiciones de arrendamiento flexibles y toma de decisiones rápida.</p>
                 </div>
 
                 <div class="feature-card">
@@ -730,8 +869,8 @@
 
                 <div class="feature-card">
                     <div class="feature-icon">💼</div>
-                    <h3>Múltiples Usos</h3>
-                    <p>Perfecto para bodega, centro de distribución, nave industrial, plaza comercial, punto de venta o servicios para personal de la zona.</p>
+                    <h3>Múltiples Usos Posibles</h3>
+                    <p>Perfecto para bodega, CEDIS, nave industrial, plaza comercial, punto de venta o servicios para personal de la zona industrial.</p>
                 </div>
             </div>
         </div>
@@ -771,7 +910,7 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Video Tour</span>
-                <h2 class="section-title">Recorrido Virtual</h2>
+                <h2 class="section-title">Recorrido Virtual del Terreno</h2>
                 <p class="section-desc">Conozca el terreno y su ubicación desde cualquier lugar</p>
             </div>
 
@@ -797,28 +936,89 @@
 
             <div class="specs-grid">
                 <div class="spec-card">
+                    <div class="spec-icon">📐</div>
                     <div class="spec-value">3,473 m²</div>
                     <div class="spec-label">Superficie Total</div>
                 </div>
                 <div class="spec-card">
+                    <div class="spec-icon">🏗️</div>
                     <div class="spec-value">Plano</div>
                     <div class="spec-label">Tipo de Terreno</div>
                 </div>
                 <div class="spec-card">
+                    <div class="spec-icon">💡</div>
                     <div class="spec-value">100%</div>
                     <div class="spec-label">Servicios Disponibles</div>
                 </div>
                 <div class="spec-card">
+                    <div class="spec-icon">📋</div>
                     <div class="spec-value">En Regla</div>
                     <div class="spec-label">Documentación</div>
                 </div>
                 <div class="spec-card">
+                    <div class="spec-icon">🏪</div>
                     <div class="spec-value">Comercial</div>
                     <div class="spec-label">Uso de Suelo</div>
                 </div>
                 <div class="spec-card">
+                    <div class="spec-icon">🚙</div>
                     <div class="spec-value">11 min</div>
                     <div class="spec-label">Distancia a Audi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Ideal Para</span>
+                <h2 class="section-title">¿Qué Puede Construir Aquí?</h2>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-check">✓</div>
+                    <div class="benefit-text">
+                        <strong>Bodega o CEDIS</strong>
+                        <span>Centro de distribución para proveedores de la industria automotriz</span>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-check">✓</div>
+                    <div class="benefit-text">
+                        <strong>Nave Industrial</strong>
+                        <span>Manufactura o ensamble para proveedores Tier 2/Tier 3</span>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-check">✓</div>
+                    <div class="benefit-text">
+                        <strong>Plaza Comercial</strong>
+                        <span>Retail para atender al personal de la zona industrial</span>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-check">✓</div>
+                    <div class="benefit-text">
+                        <strong>Tienda de Autoservicio</strong>
+                        <span>Bodega Aurrera, Tiendas 3B, OXXO u otras cadenas</span>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-check">✓</div>
+                    <div class="benefit-text">
+                        <strong>Servicios Logísticos</strong>
+                        <span>Paquetería, última milla, almacenaje</span>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-check">✓</div>
+                    <div class="benefit-text">
+                        <strong>Estación de Servicio</strong>
+                        <span>Gasolinera con tienda de conveniencia</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -871,7 +1071,7 @@
 
                 <div class="map-container">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.5!2d-97.6!3d19.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDEyJzAwLjAiTiA5N8KwMzYnMDAuMCJX!5e0!3m2!1ses!2smx!4v1234567890"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.5!2d-97.6!3d19.19!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cfc8a0d5c5c5c5%3A0x1234567890abcdef!2sRafael%20Lara%20Grajales%2C%20Pue.%2C%20Mexico!5e0!3m2!1sen!2sus!4v1704067200000!5m2!1sen!2sus"
                         allowfullscreen=""
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
@@ -885,22 +1085,22 @@
     <section class="cta">
         <div class="container">
             <h2 class="section-title">¿Listo para Conocer el Terreno?</h2>
-            <p class="cta-subtitle">Agende una visita o llámenos para más información. Trato directo con el propietario.</p>
+            <p class="cta-subtitle">Agende una visita o llámenos para más información.<br>Trato directo con el propietario — sin intermediarios.</p>
 
             <div class="cta-buttons">
                 <a href="https://wa.me/522223456789?text=Hola,%20me%20interesa%20agendar%20una%20visita%20al%20terreno%20de%203,473%20m²%20en%20Rafael%20Lara%20Grajales" class="btn btn-whatsapp" target="_blank">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     Contactar por WhatsApp
                 </a>
                 <a href="tel:+522223456789" class="btn btn-call">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                     Llamar Ahora
                 </a>
             </div>
 
             <div class="owner-info">
                 <span class="owner-badge">✓ Propietario Directo</span>
-                <span class="owner-badge">✓ Sin Intermediarios</span>
+                <span class="owner-badge">✓ Sin Comisiones</span>
                 <span class="owner-badge">✓ Negociación Flexible</span>
             </div>
         </div>
@@ -909,8 +1109,8 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>Terreno en Renta | Rafael Lara Grajales, Puebla | Corredor Industrial Audi</p>
-            <p style="margin-top: 0.5rem; opacity: 0.7;">© 2025 - Todos los derechos reservados</p>
+            <p><strong>Terreno en Renta</strong> | Rafael Lara Grajales, Puebla | Corredor Industrial Audi</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">© 2025 - Trato Directo con Propietario</p>
         </div>
     </footer>
 
