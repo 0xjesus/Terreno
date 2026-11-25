@@ -145,19 +145,23 @@ section{padding:clamp(72px,10vw,140px) 0}
 .sat img{width:100%;height:auto;border:1px solid rgba(255,255,255,.15)}
 .sat figcaption{font-size:var(--step--1);color:rgba(251,252,250,.6);margin-top:8px}
 .escala-sub{margin-top:clamp(48px,6vw,80px);font-size:var(--step-2)}
-.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-.tabs button{font:inherit;font-weight:700;font-variation-settings:"wdth" 105;padding:.7em 1.2em;border-radius:999px;border:1.5px solid rgba(255,255,255,.35);background:transparent;color:var(--white);cursor:pointer}
-.tabs button[aria-selected=true]{background:var(--maize);border-color:var(--maize);color:var(--ink)}
-.sim{display:grid;grid-template-columns:1.6fr 1fr;gap:clamp(16px,2.5vw,32px);margin-top:24px;align-items:start}
-.sim[hidden]{display:none}
+.sim-index{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.sim-index a{font-weight:700;font-variation-settings:"wdth" 105;padding:.6em 1.1em;border-radius:999px;border:1.5px solid rgba(255,255,255,.35);text-decoration:none}
+.sim-index a:hover{background:var(--maize);border-color:var(--maize);color:var(--ink)}
+.sim{margin-top:clamp(48px,6vw,80px);padding-top:clamp(28px,3vw,40px);border-top:1px solid rgba(255,255,255,.15);scroll-margin-top:24px}
+.sim h3{font-size:var(--step-2)}
+.sim-lede{color:rgba(251,252,250,.78);margin-top:.4rem}
+.sim-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:clamp(16px,2.5vw,32px);margin-top:20px;align-items:start}
 .sim-media{position:relative}
-.sim-media video{width:100%;aspect-ratio:16/9;object-fit:cover;background:#000}
+.sim-media video,.sim-media img{width:100%;aspect-ratio:16/9;object-fit:cover;background:#000}
 .sim-side img{width:100%;aspect-ratio:16/9;object-fit:cover}
 .sim-facts{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
 .sim-facts div{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.15)}
 .sim-facts dt{font-size:var(--step--1);color:rgba(251,252,250,.65)}
 .sim-facts dd{font-weight:700;font-variation-settings:"wdth" 110}
-@media (max-width:900px){.sim{grid-template-columns:1fr}}
+.hd-links{margin-top:12px;font-size:var(--step--1)}
+.hd-links a{color:var(--maize)}
+@media (max-width:900px){.sim-grid{grid-template-columns:1fr}}
 
 /* recorrido */
 .reco-grid{display:grid;grid-template-columns:minmax(220px,360px) 1fr;gap:clamp(24px,4vw,56px);margin-top:48px;align-items:start}
@@ -356,64 +360,73 @@ footer strong{color:var(--white)}
     <h2 id="t-escala">Visto desde arriba, el tamaño se entiende.</h2>
     <p class="lede" style="margin-top:1rem">Imagen satelital real del predio con sus medidas. Es casi una manzana completa entre Calle 9 Poniente y 13 Sur.</p>
     <figure class="sat">
-      <img src="assets/img/aereo-real-medidas.webp" alt="Imagen satelital real del terreno marcado en rojo con sus medidas: 69 m sobre Calle 9 Poniente, 48.5 m sobre Calle 13 Sur, 75 m y 48 m" width="1920" height="1080" loading="lazy">
+      <a href="assets/img/hd/aereo-real-medidas.jpg" target="_blank" rel="noopener"><img src="assets/img/aereo-real-medidas.webp" alt="Imagen satelital real del terreno marcado en rojo con sus medidas: 69 m sobre Calle 9 Poniente, 48.5 m sobre Calle 13 Sur, 75 m y 48 m" width="1920" height="1080" loading="lazy"></a>
       <figcaption>Imagen satelital: Esri World Imagery. Contorno trazado con las medidas de la escritura.</figcaption>
     </figure>
-
-    <h3 class="escala-sub">Tres proyectos a escala real sobre el mismo predio</h3>
-    <div class="tabs" role="tablist" aria-label="Proyectos simulados">
-      <button role="tab" id="tab-farmacia" aria-controls="p-farmacia" aria-selected="true">Farmacia en la esquina</button>
-      <button role="tab" id="tab-plaza" aria-controls="p-plaza" aria-selected="false" tabindex="-1">Plaza comercial</button>
-      <button role="tab" id="tab-fabrica" aria-controls="p-fabrica" aria-selected="false" tabindex="-1">Fábrica o bodega</button>
-    </div>
-
-    <div class="sim" role="tabpanel" id="p-farmacia" aria-labelledby="tab-farmacia">
-      <div class="sim-media">
-        <video autoplay muted loop playsinline preload="none" poster="assets/img/escala-farmacia-dron.webp" aria-label="Vuelo de dron simulado sobre una farmacia en la esquina del terreno"><source src="assets/video/escala-farmacia.mp4" type="video/mp4"></video>
-        <span class="tag">Visualización ilustrativa a escala</span>
+    <h3 class="escala-sub">Cinco proyectos a escala real sobre el mismo predio</h3>
+    <nav class="sim-index" aria-label="Simulaciones">
+      <a href="#sim-farmacia">Farmacia en esquina</a><a href="#sim-farmacia-grande">Farmacia gran formato</a><a href="#sim-plaza">Plaza comercial</a><a href="#sim-edificio">Edificio de 5 pisos</a><a href="#sim-fabrica">Fábrica o bodega</a>
+    </nav>
+    <article class="sim" id="sim-farmacia">
+      <h3>Farmacia en la esquina</h3>
+      <p class="sim-lede">Usa solo la esquina. El resto del terreno queda libre para otro proyecto o para rentar.</p>
+      <div class="sim-grid">
+        <div class="sim-media"><video autoplay muted loop playsinline preload="metadata" poster="assets/img/escala-farmacia-dron.webp" aria-label="Vuelo de dron simulado: Farmacia en la esquina"><source src="assets/video/escala-farmacia.mp4" type="video/mp4"></video><span class="tag">Visualización ilustrativa a escala</span></div>
+        <div class="sim-side">
+          <a href="assets/img/hd/escala-farmacia-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-farmacia-planta.webp" alt="Vista en planta a escala: farmacia de 450 m² en la esquina y el resto del terreno libre" loading="lazy" width="1600" height="900"></a>
+          <dl class="sim-facts"><div><dt>Ocupa</dt><dd>~1,000 m² de esquina</dd></div><div><dt>Construcción</dt><dd>~450 m², un nivel</dd></div><div><dt>Estacionamiento</dt><dd>~14 cajones</dd></div><div><dt>Queda libre</dt><dd>~2,470 m²</dd></div></dl>
+          <p class="hd-links"><a href="assets/img/hd/escala-farmacia-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-farmacia-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
+        </div>
       </div>
-      <div class="sim-side">
-        <img src="assets/img/escala-farmacia-planta.webp" alt="Vista en planta a escala: farmacia de 450 m² con estacionamiento en la esquina y el resto del terreno libre" loading="lazy" width="1600" height="900">
-        <dl class="sim-facts">
-          <div><dt>Ocupa</dt><dd>~1,000 m² de esquina</dd></div>
-          <div><dt>Construcción</dt><dd>~450 m², un nivel</dd></div>
-          <div><dt>Estacionamiento</dt><dd>~14 cajones</dd></div>
-          <div><dt>Queda libre</dt><dd>~2,470 m²</dd></div>
-        </dl>
+    </article>
+    <article class="sim" id="sim-farmacia-grande">
+      <h3>Farmacia de gran formato con minisúper</h3>
+      <p class="sim-lede">El formato de las cadenas grandes: dos niveles, autoservicio y estacionamiento amplio con entrada por las dos calles.</p>
+      <div class="sim-grid">
+        <div class="sim-media"><a href="assets/img/hd/escala-farmacia-grande-dron.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-farmacia-grande-dron.webp" alt="Vista de dron simulada: farmacia de gran formato de dos niveles con estacionamiento en la esquina del terreno" loading="lazy" width="1600" height="900"></a><span class="tag">Visualización ilustrativa a escala</span></div>
+        <div class="sim-side">
+          <a href="assets/img/hd/escala-farmacia-grande-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-farmacia-grande-planta.webp" alt="Vista en planta a escala: farmacia de gran formato con 32 cajones" loading="lazy" width="1600" height="900"></a>
+          <dl class="sim-facts"><div><dt>Construcción</dt><dd>~800 m² de planta, 2 niveles</dd></div><div><dt>Estacionamiento</dt><dd>~32 cajones</dd></div><div><dt>Extra</dt><dd>Carril de autoservicio</dd></div><div><dt>Queda libre</dt><dd>~1,400 m²</dd></div></dl>
+          <p class="hd-links"><a href="assets/img/hd/escala-farmacia-grande-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-farmacia-grande-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
+        </div>
       </div>
-    </div>
-
-    <div class="sim" role="tabpanel" id="p-plaza" aria-labelledby="tab-plaza" hidden>
-      <div class="sim-media">
-        <video muted loop playsinline preload="none" poster="assets/img/escala-plaza-dron.webp" aria-label="Vuelo de dron simulado sobre una plaza comercial en el terreno"><source src="assets/video/escala-plaza.mp4" type="video/mp4"></video>
-        <span class="tag">Visualización ilustrativa a escala</span>
+    </article>
+    <article class="sim" id="sim-plaza">
+      <h3>Plaza comercial</h3>
+      <p class="sim-lede">Todo el predio: locales en L hacia el fondo y estacionamiento al frente de las dos calles.</p>
+      <div class="sim-grid">
+        <div class="sim-media"><video autoplay muted loop playsinline preload="metadata" poster="assets/img/escala-plaza-dron.webp" aria-label="Vuelo de dron simulado: Plaza comercial"><source src="assets/video/escala-plaza.mp4" type="video/mp4"></video><span class="tag">Visualización ilustrativa a escala</span></div>
+        <div class="sim-side">
+          <a href="assets/img/hd/escala-plaza-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-plaza-planta.webp" alt="Vista en planta a escala: plaza comercial en L con 12 locales y estacionamiento" loading="lazy" width="1600" height="900"></a>
+          <dl class="sim-facts"><div><dt>Locales</dt><dd>12 + ancla, ~1,400 m²</dd></div><div><dt>Estacionamiento</dt><dd>~60 cajones</dd></div><div><dt>Accesos</dt><dd>Por las dos calles</dd></div><div><dt>Ocupa</dt><dd>Todo el predio</dd></div></dl>
+          <p class="hd-links"><a href="assets/img/hd/escala-plaza-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-plaza-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
+        </div>
       </div>
-      <div class="sim-side">
-        <img src="assets/img/escala-plaza-planta.webp" alt="Vista en planta a escala: plaza comercial en L con 12 locales y estacionamiento" loading="lazy" width="1600" height="900">
-        <dl class="sim-facts">
-          <div><dt>Ocupa</dt><dd>Todo el predio</dd></div>
-          <div><dt>Locales</dt><dd>12 + ancla, ~1,400 m²</dd></div>
-          <div><dt>Estacionamiento</dt><dd>~60 cajones</dd></div>
-          <div><dt>Accesos</dt><dd>Por las dos calles</dd></div>
-        </dl>
+    </article>
+    <article class="sim" id="sim-edificio">
+      <h3>Edificio de cinco pisos</h3>
+      <p class="sim-lede">Locales en planta baja y departamentos arriba, para quienes trabajan en el corredor de Audi.</p>
+      <div class="sim-grid">
+        <div class="sim-media"><a href="assets/img/hd/escala-edificio-dron.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-edificio-dron.webp" alt="Vista de dron simulada: edificio de cinco pisos en L sobre la esquina del terreno" loading="lazy" width="1600" height="900"></a><span class="tag">Visualización ilustrativa a escala</span></div>
+        <div class="sim-side">
+          <a href="assets/img/hd/escala-edificio-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-edificio-planta.webp" alt="Vista en planta a escala: edificio en L de cinco pisos con patio interior y estacionamiento" loading="lazy" width="1600" height="900"></a>
+          <dl class="sim-facts"><div><dt>Planta</dt><dd>~1,300 m² en L</dd></div><div><dt>Niveles</dt><dd>5</dd></div><div><dt>Planta baja</dt><dd>Locales a las dos calles</dd></div><div><dt>Patio interior</dt><dd>~35 cajones</dd></div></dl>
+          <p class="hd-links"><a href="assets/img/hd/escala-edificio-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-edificio-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
+        </div>
       </div>
-    </div>
-
-    <div class="sim" role="tabpanel" id="p-fabrica" aria-labelledby="tab-fabrica" hidden>
-      <div class="sim-media">
-        <video muted loop playsinline preload="none" poster="assets/img/escala-fabrica-dron.webp" aria-label="Vuelo de dron simulado sobre una nave industrial en el terreno"><source src="assets/video/escala-fabrica.mp4" type="video/mp4"></video>
-        <span class="tag">Visualización ilustrativa a escala</span>
+    </article>
+    <article class="sim" id="sim-fabrica">
+      <h3>Fábrica o bodega</h3>
+      <p class="sim-lede">Nave con andenes sobre 13 Sur y patio para tráileres, a 10 minutos de la planta.</p>
+      <div class="sim-grid">
+        <div class="sim-media"><video autoplay muted loop playsinline preload="metadata" poster="assets/img/escala-fabrica-dron.webp" aria-label="Vuelo de dron simulado: Fábrica o bodega"><source src="assets/video/escala-fabrica.mp4" type="video/mp4"></video><span class="tag">Visualización ilustrativa a escala</span></div>
+        <div class="sim-side">
+          <a href="assets/img/hd/escala-fabrica-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-fabrica-planta.webp" alt="Vista en planta a escala: nave industrial de 2,000 m² con andenes y patio de maniobras" loading="lazy" width="1600" height="900"></a>
+          <dl class="sim-facts"><div><dt>Nave</dt><dd>~2,000 m² (50 × 40 m)</dd></div><div><dt>Andenes</dt><dd>4, sobre 13 Sur</dd></div><div><dt>Oficinas</dt><dd>~150 m², dos niveles</dd></div><div><dt>Patio</dt><dd>Para tráileres</dd></div></dl>
+          <p class="hd-links"><a href="assets/img/hd/escala-fabrica-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-fabrica-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
+        </div>
       </div>
-      <div class="sim-side">
-        <img src="assets/img/escala-fabrica-planta.webp" alt="Vista en planta a escala: nave industrial de 2,000 m² con andenes y patio de maniobras" loading="lazy" width="1600" height="900">
-        <dl class="sim-facts">
-          <div><dt>Nave</dt><dd>~2,000 m² (50 × 40 m)</dd></div>
-          <div><dt>Andenes</dt><dd>4, sobre 13 Sur</dd></div>
-          <div><dt>Oficinas</dt><dd>~150 m², dos niveles</dd></div>
-          <div><dt>Patio</dt><dd>Para tráileres</dd></div>
-        </dl>
-      </div>
-    </div>
+    </article>
     <p class="note">Simulaciones hechas sobre la imagen satelital real, respetando las medidas del predio. Las superficies son un programa ilustrativo; el proyecto final depende de la licencia municipal. Los letreros son genéricos y no representan a ninguna marca.</p>
   </div>
 </section>
@@ -602,23 +615,6 @@ footer strong{color:var(--white)}
 </a>
 
 <script>
-(function () {
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs [role=tab]'));
-  function select(t) {
-    tabs.forEach(function (b) {
-      var on = b === t, p = document.getElementById(b.getAttribute('aria-controls')), v = p.querySelector('video');
-      b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; p.hidden = !on;
-      if (v) { if (on) { v.play().catch(function () {}); } else { v.pause(); } }
-    });
-  }
-  tabs.forEach(function (b, i) {
-    b.addEventListener('click', function () { select(b); });
-    b.addEventListener('keydown', function (e) {
-      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (d) { var n = tabs[(i + d + tabs.length) % tabs.length]; n.focus(); select(n); }
-    });
-  });
-})();
 document.getElementById('lead').addEventListener('submit', function (e) {
   e.preventDefault();
   var f = e.target;
