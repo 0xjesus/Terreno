@@ -50,6 +50,7 @@
   --step-4:clamp(2.6rem,1.6rem + 4.6vw,5.6rem);
   --gutter:clamp(16px,4vw,56px);
   --max:1240px;
+  --top-h:68px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -65,7 +66,7 @@ h2{font-variation-settings:"wdth" 118;font-weight:800;font-size:var(--step-3);li
 h3{font-variation-settings:"wdth" 110;font-weight:750;font-size:var(--step-1);line-height:1.15}
 p{max-width:62ch}
 .lede{font-size:var(--step-1);line-height:1.45;color:var(--ink-2);max-width:46ch}
-section{padding:clamp(72px,10vw,140px) 0}
+section{padding:clamp(72px,10vw,140px) 0;scroll-margin-top:var(--top-h)}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:.6em;font:inherit;font-weight:700;font-variation-settings:"wdth" 105;text-decoration:none;padding:.95em 1.4em;border-radius:999px;border:2px solid transparent;cursor:pointer;transition:transform .15s ease,background .15s ease}
@@ -76,14 +77,32 @@ section{padding:clamp(72px,10vw,140px) 0}
 .btn svg{width:1.25em;height:1.25em;flex:none}
 
 /* header */
-.top{position:absolute;inset:0 0 auto 0;z-index:5;color:var(--white)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+.top{position:fixed;inset:0 0 auto 0;z-index:30;color:var(--white);transition:background .25s ease,box-shadow .25s ease}
+.top.solid,.top.open{background:rgba(21,34,46,.95);box-shadow:0 1px 0 rgba(251,252,250,.1)}
+@supports (backdrop-filter:blur(8px)){.top.solid{background:rgba(21,34,46,.86);backdrop-filter:blur(10px) saturate(1.2)}}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:var(--top-h)}
 .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;font-variation-settings:"wdth" 125;font-weight:850;font-size:1.15rem;letter-spacing:-.01em}
 .brand svg{width:30px;height:30px}
-.top nav{display:flex;gap:1.6rem;font-size:var(--step--1);font-weight:600}
-.top nav a{text-decoration:none;opacity:.85}
-.top nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
-@media (max-width:820px){.top nav{display:none}}
+.top nav{display:flex;gap:1.5rem;font-size:var(--step--1);font-weight:600}
+.top nav a{text-decoration:none;opacity:.8;padding:.3em 0;border-bottom:2px solid transparent}
+.top nav a:hover{opacity:1}
+.top nav a[aria-current="true"]{opacity:1;border-bottom-color:var(--maize)}
+.top-actions{display:flex;align-items:center;gap:10px}
+.btn-sm{padding:.55em 1.05em;font-size:var(--step--1)}
+.menu-btn{display:none;align-items:center;gap:.55em;font:inherit;font-weight:700;font-size:var(--step--1);color:inherit;background:transparent;border:1.5px solid rgba(251,252,250,.4);border-radius:999px;padding:.5em .95em;cursor:pointer}
+.bars,.bars::before,.bars::after{display:block;width:16px;height:2px;background:currentColor;border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+.bars{position:relative}.bars::before,.bars::after{content:"";position:absolute;left:0}.bars::before{top:-5px}.bars::after{top:5px}
+.menu-btn[aria-expanded="true"] .bars{background:transparent}
+.menu-btn[aria-expanded="true"] .bars::before{transform:translateY(5px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] .bars::after{transform:translateY(-5px) rotate(-45deg)}
+@media (max-width:1080px){
+  .menu-btn{display:inline-flex}
+  .top nav{display:none;position:absolute;top:var(--top-h);left:0;right:0;flex-direction:column;gap:0;background:var(--ink);padding:4px var(--gutter) 20px;font-size:var(--step-0);box-shadow:0 12px 24px rgba(21,34,46,.35)}
+  .top nav.open{display:flex}
+  .top nav a{padding:14px 0;border-bottom:1px solid rgba(251,252,250,.1);opacity:1}
+  .top nav a[aria-current="true"]{color:var(--maize);border-bottom-color:rgba(251,252,250,.1)}
+}
+@media (max-width:820px){.top-cta{display:none}}
 
 /* hero */
 .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;color:var(--white);background:var(--ink);overflow:hidden;padding:0}
@@ -145,10 +164,12 @@ section{padding:clamp(72px,10vw,140px) 0}
 .sat img{width:100%;height:auto;border:1px solid rgba(255,255,255,.15)}
 .sat figcaption{font-size:var(--step--1);color:rgba(251,252,250,.6);margin-top:8px}
 .escala-sub{margin-top:clamp(48px,6vw,80px);font-size:var(--step-2)}
-.sim-index{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-.sim-index a{font-weight:700;font-variation-settings:"wdth" 105;padding:.6em 1.1em;border-radius:999px;border:1.5px solid rgba(255,255,255,.35);text-decoration:none}
-.sim-index a:hover{background:var(--maize);border-color:var(--maize);color:var(--ink)}
-.sim{margin-top:clamp(48px,6vw,80px);padding-top:clamp(28px,3vw,40px);border-top:1px solid rgba(255,255,255,.15);scroll-margin-top:24px}
+.sim-index{position:sticky;top:var(--top-h);z-index:4;display:flex;gap:8px;margin:20px calc(var(--gutter) * -1) 0;padding:12px var(--gutter);background:rgba(21,34,46,.94);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sim-index::-webkit-scrollbar{display:none}
+.sim-index a{flex:none;white-space:nowrap;font-weight:700;font-size:var(--step--1);font-variation-settings:"wdth" 105;padding:.55em 1.05em;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);text-decoration:none;transition:background .15s ease,color .15s ease,border-color .15s ease}
+.sim-index a:hover{border-color:var(--maize)}
+.sim-index a[aria-current="true"]{background:var(--maize);border-color:var(--maize);color:var(--ink)}
+.sim{margin-top:clamp(40px,5vw,72px);padding-top:clamp(28px,3vw,40px);border-top:1px solid rgba(255,255,255,.15);scroll-margin-top:calc(var(--top-h) + 64px)}
 .sim h3{font-size:var(--step-2)}
 .sim-lede{color:rgba(251,252,250,.78);margin-top:.4rem}
 .sim-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:clamp(16px,2.5vw,32px);margin-top:20px;align-items:start}
@@ -242,8 +263,28 @@ footer{background:var(--ink);color:rgba(251,252,250,.72);padding:48px 0 110px;fo
 footer .wrap{display:grid;gap:14px}
 footer strong{color:var(--white)}
 
-.float-wa{position:fixed;right:16px;bottom:16px;z-index:20;box-shadow:0 8px 24px rgba(21,34,46,.3)}
-@media (min-width:821px){.float-wa .t{display:inline}}
+/* barra de contacto en celular */
+.mbar{display:none}
+@media (max-width:820px){
+  .mbar{display:grid;grid-template-columns:1.4fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:25;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(237,240,234,.96);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .25s ease}
+  .mbar.show{transform:none}
+  .mbar .btn{justify-content:center;padding:.8em 1em}
+  .btn-call{background:var(--ink);color:var(--white)}
+}
+.form-hint{font-size:var(--step--1);color:var(--muted);text-align:center;margin:-4px auto 0}
+
+/* ampliar imágenes */
+a.zoom{position:relative;display:block;cursor:zoom-in}
+a.zoom::after{content:"";position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:50%;background:rgba(21,34,46,.78) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center/16px no-repeat;transition:transform .15s ease}
+a.zoom:hover::after{transform:scale(1.1)}
+#lb{border:0;padding:0;margin:0;width:100vw;height:100dvh;max-width:none;max-height:none;background:transparent;color:var(--white)}
+#lb::backdrop{background:rgba(12,19,26,.94)}
+#lb[open]{display:grid;place-items:center}
+#lb figure{display:grid;gap:10px;justify-items:center;padding:56px 12px 16px}
+#lb img{max-width:min(96vw,1800px);max-height:calc(100dvh - 130px);width:auto;height:auto;object-fit:contain;background:#000}
+#lb figcaption{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;align-items:baseline;font-size:var(--step--1);color:rgba(251,252,250,.8);max-width:72ch;text-align:center}
+#lb .lb-open{color:var(--maize);font-weight:700}
+.lb-close{position:fixed;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(251,252,250,.4);background:rgba(21,34,46,.6);color:#fff;font-size:28px;line-height:1;cursor:pointer}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 </style>
 </head>
@@ -255,14 +296,18 @@ footer strong{color:var(--white)}
       <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 5 L27 5 L27 24 L4 26 Z" fill="none" stroke="#C4372C" stroke-width="3" stroke-linejoin="round"/><circle cx="27" cy="5" r="3" fill="#D4A22B"/></svg>
       Lote Chiapa
     </a>
-    <nav aria-label="Secciones">
-      <a href="#plano">El terreno</a>
-      <a href="#escala">A escala</a>
+    <nav id="menu" aria-label="Secciones">
       <a href="#ubicacion">Ubicación</a>
+      <a href="#escala">A escala</a>
       <a href="#recorrido">Recorrido</a>
-      <a href="#vision">Qué se puede hacer</a>
-      <a href="#contacto">Contacto</a>
+      <a href="#vision">Usos</a>
+      <a href="#plano">Medidas y papeles</a>
+      <a href="#esquemas">Venta o renta</a>
     </nav>
+    <div class="top-actions">
+      <a class="btn btn-wa btn-sm top-cta" href="https://wa.me/522227611743?text=Hola%2C%20me%20interesa%20el%20terreno%20de%203%2C473%20m%C2%B2%20en%20Rafael%20Lara%20Grajales%20(Lote%20Chiapa)." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>WhatsApp</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="bars" aria-hidden="true"></span><span class="menu-label">Menú</span></button>
+    </div>
   </div>
 </header>
 
@@ -281,7 +326,7 @@ footer strong{color:var(--white)}
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
             Escribir por WhatsApp
           </a>
-          <a class="btn btn-ghost" href="#plano">Ver medidas y documentos</a>
+          <a class="btn btn-ghost" href="#escala">Ver qué cabe en el terreno</a>
         </div>
       </div>
       <figure class="hero-plan" aria-label="Croquis del terreno con sus medidas">
@@ -302,10 +347,167 @@ footer strong{color:var(--white)}
   <div class="wrap">
     <dl>
       <div><dt>Superficie escriturada</dt><dd>3,473 m²</dd></div>
-      <div><dt>Frente a 9 Poniente</dt><dd>69 m</dd></div>
+      <div><dt>Frentes a calle</dt><dd>69 + 48.5 m</dd></div>
       <div><dt>Planta Audi México</dt><dd>7.6 km</dd></div>
       <div><dt>Gravámenes</dt><dd>Ninguno</dd></div>
     </dl>
+  </div>
+</section>
+
+<section id="ubicacion" class="ubic" aria-labelledby="t-ubic">
+  <div class="wrap">
+    <h2 id="t-ubic">Del terreno a la planta de Audi hay 7.6 kilómetros.</h2>
+    <p class="lede" style="margin-top:1rem">Audi México arma en San José Chiapa desde 2016. A su alrededor crecieron Ciudad Modelo, proveedores, transportistas y miles de empleos. Lara Grajales es el pueblo consolidado más cercano a la planta, con servicios, escuelas y comercio.</p>
+    <div class="map-wrap">
+      <svg viewBox="0 0 700 320" role="img" aria-label="Esquema de ubicación: el terreno en Rafael Lara Grajales, Audi México a 7.6 km al oriente, Ciudad Modelo y San José Chiapa al oriente, Puebla capital 53 km al poniente">
+        <defs><pattern id="g2" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#EDF0EA" stroke-width="1"/></pattern></defs>
+        <rect width="700" height="320" fill="url(#g2)"/>
+        <g stroke="#56636E" stroke-width="1.5" stroke-dasharray="5 5" fill="none">
+          <path d="M143 183 L435 195"/><path d="M143 183 L307 198"/><path d="M143 183 L600 57"/><path d="M143 183 L84 221"/><path d="M143 183 L20 300"/>
+        </g>
+        <path d="M143 183 L435 195" stroke="#C4372C" stroke-width="3" fill="none"/>
+        <g font-family="Archivo" font-size="13" fill="#15222E">
+          <circle cx="435" cy="195" r="9" fill="#15222E"/><text x="447" y="222" font-weight="800">Planta Audi México</text><text x="447" y="238" fill="#56636E">San José Chiapa</text>
+          <circle cx="307" cy="198" r="6" fill="#5B7C68"/><text x="270" y="226" font-weight="700">Ciudad Modelo</text>
+          <circle cx="600" cy="57" r="6" fill="#5B7C68"/><text x="590" y="40" text-anchor="end" font-weight="700">San José Chiapa</text>
+          <circle cx="84" cy="221" r="5" fill="#5B7C68"/><text x="92" y="246" font-weight="700">Nopalucan</text>
+          <text x="26" y="290" font-weight="700" fill="#56636E">Puebla capital, 53 km</text>
+          <polygon points="135,173 155,173 155,193 131,195" fill="#C4372C"/>
+          <text x="143" y="160" text-anchor="middle" font-weight="850" font-size="15">El terreno</text>
+          <text x="290" y="180" text-anchor="middle" font-weight="800" fill="#C4372C">7.6 km</text>
+        </g>
+      </svg>
+      <ul class="dist" aria-label="Distancias en auto">
+        <li class="hl"><span>Planta Audi México</span><b>7.6 km · 10 min</b></li>
+        <li><span>Ciudad Modelo</span><b>5 km · 11 min</b></li>
+        <li><span>Cabecera de San José Chiapa</span><b>13.5 km · 21 min</b></li>
+        <li><span>Nopalucan</span><b>2.3 km · 4 min</b></li>
+        <li><span>Amozoc, entronque a la autopista</span><b>35 km · 33 min</b></li>
+        <li><span>Ciudad de Puebla</span><b>53 km · 52 min</b></li>
+      </ul>
+    </div>
+    <p class="note">Distancias por carretera calculadas con OpenStreetMap; los tiempos son sin tráfico. Esquema sin escala.</p>
+  </div>
+</section>
+
+<section id="escala" class="escala" aria-labelledby="t-escala">
+  <div class="wrap">
+    <h2 id="t-escala">Visto desde arriba, el tamaño se entiende.</h2>
+    <p class="lede" style="margin-top:1rem">Imagen satelital real del predio con sus medidas. Es casi una manzana completa entre Calle 9 Poniente y 13 Sur.</p>
+    <figure class="sat">
+      <a href="assets/img/hd/aereo-real-medidas.jpg" target="_blank" rel="noopener"><img src="assets/img/aereo-real-medidas.webp" alt="Imagen satelital real del terreno marcado en rojo con sus medidas: 69 m sobre Calle 9 Poniente, 48.5 m sobre Calle 13 Sur, 75 m y 48 m" width="1920" height="1080" loading="lazy"></a>
+      <figcaption>Imagen satelital: Esri World Imagery. Contorno trazado con las medidas de la escritura.</figcaption>
+    </figure>
+    <h3 class="escala-sub">Cinco proyectos a escala real sobre el mismo predio</h3>
+    <nav class="sim-index" aria-label="Simulaciones">
+      <a href="#sim-farmacia">Farmacia en esquina</a><a href="#sim-farmacia-grande">Farmacia gran formato</a><a href="#sim-plaza">Plaza comercial</a><a href="#sim-edificio">Edificio de 5 pisos</a><a href="#sim-fabrica">Fábrica o bodega</a>
+    </nav>
+    <article class="sim" id="sim-farmacia">
+      <h3>Farmacia en la esquina</h3>
+      <p class="sim-lede">Usa solo la esquina. El resto del terreno queda libre para otro proyecto o para rentar.</p>
+      <div class="sim-grid">
+        <div class="sim-media"><video data-auto muted loop playsinline preload="none" poster="assets/img/escala-farmacia-dron.webp" aria-label="Vuelo de dron simulado: Farmacia en la esquina"><source src="assets/video/escala-farmacia.mp4" type="video/mp4"></video><span class="tag">Visualización ilustrativa a escala</span></div>
+        <div class="sim-side">
+          <a href="assets/img/hd/escala-farmacia-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-farmacia-planta.webp" alt="Vista en planta a escala: farmacia de 450 m² en la esquina y el resto del terreno libre" loading="lazy" width="1600" height="900"></a>
+          <dl class="sim-facts"><div><dt>Ocupa</dt><dd>~1,000 m² de esquina</dd></div><div><dt>Construcción</dt><dd>~450 m², un nivel</dd></div><div><dt>Estacionamiento</dt><dd>~14 cajones</dd></div><div><dt>Queda libre</dt><dd>~2,470 m²</dd></div></dl>
+          <p class="hd-links"><a href="assets/img/hd/escala-farmacia-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-farmacia-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
+        </div>
+      </div>
+    </article>
+    <article class="sim" id="sim-farmacia-grande">
+      <h3>Farmacia de gran formato con minisúper</h3>
+      <p class="sim-lede">El formato de las cadenas grandes: dos niveles, autoservicio y estacionamiento amplio con entrada por las dos calles.</p>
+      <div class="sim-grid">
+        <div class="sim-media"><a href="assets/img/hd/escala-farmacia-grande-dron.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-farmacia-grande-dron.webp" alt="Vista de dron simulada: farmacia de gran formato de dos niveles con estacionamiento en la esquina del terreno" loading="lazy" width="1600" height="900"></a><span class="tag">Visualización ilustrativa a escala</span></div>
+        <div class="sim-side">
+          <a href="assets/img/hd/escala-farmacia-grande-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-farmacia-grande-planta.webp" alt="Vista en planta a escala: farmacia de gran formato con 32 cajones" loading="lazy" width="1600" height="900"></a>
+          <dl class="sim-facts"><div><dt>Construcción</dt><dd>~800 m² de planta, 2 niveles</dd></div><div><dt>Estacionamiento</dt><dd>~32 cajones</dd></div><div><dt>Extra</dt><dd>Carril de autoservicio</dd></div><div><dt>Queda libre</dt><dd>~1,400 m²</dd></div></dl>
+          <p class="hd-links"><a href="assets/img/hd/escala-farmacia-grande-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-farmacia-grande-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
+        </div>
+      </div>
+    </article>
+    <article class="sim" id="sim-plaza">
+      <h3>Plaza comercial</h3>
+      <p class="sim-lede">Todo el predio: locales en L hacia el fondo y estacionamiento al frente de las dos calles.</p>
+      <div class="sim-grid">
+        <div class="sim-media"><video data-auto muted loop playsinline preload="none" poster="assets/img/escala-plaza-dron.webp" aria-label="Vuelo de dron simulado: Plaza comercial"><source src="assets/video/escala-plaza.mp4" type="video/mp4"></video><span class="tag">Visualización ilustrativa a escala</span></div>
+        <div class="sim-side">
+          <a href="assets/img/hd/escala-plaza-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-plaza-planta.webp" alt="Vista en planta a escala: plaza comercial en L con 12 locales y estacionamiento" loading="lazy" width="1600" height="900"></a>
+          <dl class="sim-facts"><div><dt>Locales</dt><dd>12 + ancla, ~1,400 m²</dd></div><div><dt>Estacionamiento</dt><dd>~60 cajones</dd></div><div><dt>Accesos</dt><dd>Por las dos calles</dd></div><div><dt>Ocupa</dt><dd>Todo el predio</dd></div></dl>
+          <p class="hd-links"><a href="assets/img/hd/escala-plaza-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-plaza-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
+        </div>
+      </div>
+    </article>
+    <article class="sim" id="sim-edificio">
+      <h3>Edificio de cinco pisos</h3>
+      <p class="sim-lede">Locales en planta baja y departamentos arriba, para quienes trabajan en el corredor de Audi.</p>
+      <div class="sim-grid">
+        <div class="sim-media"><a href="assets/img/hd/escala-edificio-dron.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-edificio-dron.webp" alt="Vista de dron simulada: edificio de cinco pisos en L sobre la esquina del terreno" loading="lazy" width="1600" height="900"></a><span class="tag">Visualización ilustrativa a escala</span></div>
+        <div class="sim-side">
+          <a href="assets/img/hd/escala-edificio-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-edificio-planta.webp" alt="Vista en planta a escala: edificio en L de cinco pisos con patio interior y estacionamiento" loading="lazy" width="1600" height="900"></a>
+          <dl class="sim-facts"><div><dt>Planta</dt><dd>~1,300 m² en L</dd></div><div><dt>Niveles</dt><dd>5</dd></div><div><dt>Planta baja</dt><dd>Locales a las dos calles</dd></div><div><dt>Patio interior</dt><dd>~35 cajones</dd></div></dl>
+          <p class="hd-links"><a href="assets/img/hd/escala-edificio-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-edificio-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
+        </div>
+      </div>
+    </article>
+    <article class="sim" id="sim-fabrica">
+      <h3>Fábrica o bodega</h3>
+      <p class="sim-lede">Nave con andenes sobre 13 Sur y patio para tráileres, a 10 minutos de la planta.</p>
+      <div class="sim-grid">
+        <div class="sim-media"><video data-auto muted loop playsinline preload="none" poster="assets/img/escala-fabrica-dron.webp" aria-label="Vuelo de dron simulado: Fábrica o bodega"><source src="assets/video/escala-fabrica.mp4" type="video/mp4"></video><span class="tag">Visualización ilustrativa a escala</span></div>
+        <div class="sim-side">
+          <a href="assets/img/hd/escala-fabrica-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-fabrica-planta.webp" alt="Vista en planta a escala: nave industrial de 2,000 m² con andenes y patio de maniobras" loading="lazy" width="1600" height="900"></a>
+          <dl class="sim-facts"><div><dt>Nave</dt><dd>~2,000 m² (50 × 40 m)</dd></div><div><dt>Andenes</dt><dd>4, sobre 13 Sur</dd></div><div><dt>Oficinas</dt><dd>~150 m², dos niveles</dd></div><div><dt>Patio</dt><dd>Para tráileres</dd></div></dl>
+          <p class="hd-links"><a href="assets/img/hd/escala-fabrica-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-fabrica-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
+        </div>
+      </div>
+    </article>
+    <p class="note">Simulaciones hechas sobre la imagen satelital real, respetando las medidas del predio. Las superficies son un programa ilustrativo; el proyecto final depende de la licencia municipal. Los letreros son genéricos y no representan a ninguna marca.</p>
+  </div>
+</section>
+
+<section id="recorrido" aria-labelledby="t-reco">
+  <div class="wrap">
+    <h2 id="t-reco">Recorre el terreno antes de venir.</h2>
+    <p class="lede" style="margin-top:1rem">Fotos reales del predio. El video vertical está animado a partir de una de ellas.</p>
+    <div class="reco-grid">
+      <div class="phone"><video controls muted playsinline preload="metadata" poster="assets/img/recorrido-poster.jpg" aria-label="Recorrido a pie por el terreno"><source src="assets/video/recorrido.mp4" type="video/mp4"></video></div>
+      <div class="gallery">
+        <figure><img src="assets/img/foto-esquina-streetview.webp" alt="La esquina de Calle 9 Poniente y 13 Sur, con la calle pavimentada y el terreno vacío" loading="lazy" width="1200" height="526"><figcaption>La esquina, desde Calle 9 Poniente.</figcaption></figure>
+        <figure><img src="assets/img/foto-vista-sur.webp" alt="El terreno con rastrojo de maíz y casas al fondo" loading="lazy" width="800" height="600"><figcaption>El terreno, con las casas vecinas al fondo.</figcaption></figure>
+        <figure><img src="assets/img/foto-campo-niebla.webp" alt="El terreno con matorral seco en primer plano" loading="lazy" width="800" height="600"><figcaption>El terreno en una mañana con niebla.</figcaption></figure>
+        <figure><img src="assets/img/foto-campo-poniente.webp" alt="El terreno visto desde la calle" loading="lazy" width="800" height="600"><figcaption>El terreno visto desde la calle.</figcaption></figure>
+        <figure><img src="assets/img/mapa-satelite.webp" alt="Vista satelital del terreno entre las calles 9 Poniente y 13 Sur" loading="lazy" width="910" height="676"><figcaption>Vista satelital del predio.</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vision" class="vision" aria-labelledby="t-vision">
+  <div class="wrap">
+    <h2 id="t-vision">Tres usos que tienen sentido junto a la planta.</h2>
+    <p class="lede" style="margin-top:1rem">Las imágenes son visualizaciones ilustrativas hechas sobre fotos reales del terreno; el uso final depende del proyecto y de la licencia municipal.</p>
+    <div class="transform">
+      <video data-auto muted loop playsinline preload="none" poster="assets/img/vision-nave.webp" aria-label="Visualización: el terreno vacío se transforma en una nave industrial"><source src="assets/video/transformacion.mp4" type="video/mp4"></video>
+      <span class="tag">Visualización ilustrativa</span>
+    </div>
+    <div class="uses">
+      <article class="use">
+        <div style="position:relative"><img src="assets/img/vision-nave.webp" alt="Visualización de una nave industrial con andenes de carga en el terreno" loading="lazy" width="1600" height="900"><span class="tag">Visualización ilustrativa</span></div>
+        <h3>Bodega o centro de distribución</h3>
+        <p>Para proveedores y transportistas que trabajan con la planta. Andenes sobre 13 Sur y patio de maniobras sin cruzar el pueblo.</p>
+      </article>
+      <article class="use">
+        <div style="position:relative"><img src="assets/img/vision-plaza.webp" alt="Visualización de una plaza comercial de barrio con locales y estacionamiento" loading="lazy" width="1600" height="900"><span class="tag">Visualización ilustrativa</span></div>
+        <h3>Comercio de conveniencia</h3>
+        <p>Una tienda de formato chico o una plaza de locales. La esquina con dos frentes da visibilidad y acceso por las dos calles.</p>
+      </article>
+      <article class="use">
+        <div style="position:relative"><img src="assets/img/vision-vivienda.webp" alt="Visualización de un conjunto de casas de dos pisos con calle privada" loading="lazy" width="1600" height="900"><span class="tag">Visualización ilustrativa</span></div>
+        <h3>Vivienda</h3>
+        <p>Un conjunto pequeño de casas o departamentos en renta para quienes trabajan en el corredor y prefieren vivir en un pueblo con servicios.</p>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -355,160 +557,16 @@ footer strong{color:var(--white)}
   </div>
 </section>
 
-<section id="escala" class="escala" aria-labelledby="t-escala">
+<section id="documentos" class="docs" aria-labelledby="t-docs">
   <div class="wrap">
-    <h2 id="t-escala">Visto desde arriba, el tamaño se entiende.</h2>
-    <p class="lede" style="margin-top:1rem">Imagen satelital real del predio con sus medidas. Es casi una manzana completa entre Calle 9 Poniente y 13 Sur.</p>
-    <figure class="sat">
-      <a href="assets/img/hd/aereo-real-medidas.jpg" target="_blank" rel="noopener"><img src="assets/img/aereo-real-medidas.webp" alt="Imagen satelital real del terreno marcado en rojo con sus medidas: 69 m sobre Calle 9 Poniente, 48.5 m sobre Calle 13 Sur, 75 m y 48 m" width="1920" height="1080" loading="lazy"></a>
-      <figcaption>Imagen satelital: Esri World Imagery. Contorno trazado con las medidas de la escritura.</figcaption>
-    </figure>
-    <h3 class="escala-sub">Cinco proyectos a escala real sobre el mismo predio</h3>
-    <nav class="sim-index" aria-label="Simulaciones">
-      <a href="#sim-farmacia">Farmacia en esquina</a><a href="#sim-farmacia-grande">Farmacia gran formato</a><a href="#sim-plaza">Plaza comercial</a><a href="#sim-edificio">Edificio de 5 pisos</a><a href="#sim-fabrica">Fábrica o bodega</a>
-    </nav>
-    <article class="sim" id="sim-farmacia">
-      <h3>Farmacia en la esquina</h3>
-      <p class="sim-lede">Usa solo la esquina. El resto del terreno queda libre para otro proyecto o para rentar.</p>
-      <div class="sim-grid">
-        <div class="sim-media"><video autoplay muted loop playsinline preload="metadata" poster="assets/img/escala-farmacia-dron.webp" aria-label="Vuelo de dron simulado: Farmacia en la esquina"><source src="assets/video/escala-farmacia.mp4" type="video/mp4"></video><span class="tag">Visualización ilustrativa a escala</span></div>
-        <div class="sim-side">
-          <a href="assets/img/hd/escala-farmacia-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-farmacia-planta.webp" alt="Vista en planta a escala: farmacia de 450 m² en la esquina y el resto del terreno libre" loading="lazy" width="1600" height="900"></a>
-          <dl class="sim-facts"><div><dt>Ocupa</dt><dd>~1,000 m² de esquina</dd></div><div><dt>Construcción</dt><dd>~450 m², un nivel</dd></div><div><dt>Estacionamiento</dt><dd>~14 cajones</dd></div><div><dt>Queda libre</dt><dd>~2,470 m²</dd></div></dl>
-          <p class="hd-links"><a href="assets/img/hd/escala-farmacia-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-farmacia-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
-        </div>
-      </div>
-    </article>
-    <article class="sim" id="sim-farmacia-grande">
-      <h3>Farmacia de gran formato con minisúper</h3>
-      <p class="sim-lede">El formato de las cadenas grandes: dos niveles, autoservicio y estacionamiento amplio con entrada por las dos calles.</p>
-      <div class="sim-grid">
-        <div class="sim-media"><a href="assets/img/hd/escala-farmacia-grande-dron.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-farmacia-grande-dron.webp" alt="Vista de dron simulada: farmacia de gran formato de dos niveles con estacionamiento en la esquina del terreno" loading="lazy" width="1600" height="900"></a><span class="tag">Visualización ilustrativa a escala</span></div>
-        <div class="sim-side">
-          <a href="assets/img/hd/escala-farmacia-grande-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-farmacia-grande-planta.webp" alt="Vista en planta a escala: farmacia de gran formato con 32 cajones" loading="lazy" width="1600" height="900"></a>
-          <dl class="sim-facts"><div><dt>Construcción</dt><dd>~800 m² de planta, 2 niveles</dd></div><div><dt>Estacionamiento</dt><dd>~32 cajones</dd></div><div><dt>Extra</dt><dd>Carril de autoservicio</dd></div><div><dt>Queda libre</dt><dd>~1,400 m²</dd></div></dl>
-          <p class="hd-links"><a href="assets/img/hd/escala-farmacia-grande-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-farmacia-grande-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
-        </div>
-      </div>
-    </article>
-    <article class="sim" id="sim-plaza">
-      <h3>Plaza comercial</h3>
-      <p class="sim-lede">Todo el predio: locales en L hacia el fondo y estacionamiento al frente de las dos calles.</p>
-      <div class="sim-grid">
-        <div class="sim-media"><video autoplay muted loop playsinline preload="metadata" poster="assets/img/escala-plaza-dron.webp" aria-label="Vuelo de dron simulado: Plaza comercial"><source src="assets/video/escala-plaza.mp4" type="video/mp4"></video><span class="tag">Visualización ilustrativa a escala</span></div>
-        <div class="sim-side">
-          <a href="assets/img/hd/escala-plaza-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-plaza-planta.webp" alt="Vista en planta a escala: plaza comercial en L con 12 locales y estacionamiento" loading="lazy" width="1600" height="900"></a>
-          <dl class="sim-facts"><div><dt>Locales</dt><dd>12 + ancla, ~1,400 m²</dd></div><div><dt>Estacionamiento</dt><dd>~60 cajones</dd></div><div><dt>Accesos</dt><dd>Por las dos calles</dd></div><div><dt>Ocupa</dt><dd>Todo el predio</dd></div></dl>
-          <p class="hd-links"><a href="assets/img/hd/escala-plaza-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-plaza-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
-        </div>
-      </div>
-    </article>
-    <article class="sim" id="sim-edificio">
-      <h3>Edificio de cinco pisos</h3>
-      <p class="sim-lede">Locales en planta baja y departamentos arriba, para quienes trabajan en el corredor de Audi.</p>
-      <div class="sim-grid">
-        <div class="sim-media"><a href="assets/img/hd/escala-edificio-dron.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-edificio-dron.webp" alt="Vista de dron simulada: edificio de cinco pisos en L sobre la esquina del terreno" loading="lazy" width="1600" height="900"></a><span class="tag">Visualización ilustrativa a escala</span></div>
-        <div class="sim-side">
-          <a href="assets/img/hd/escala-edificio-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-edificio-planta.webp" alt="Vista en planta a escala: edificio en L de cinco pisos con patio interior y estacionamiento" loading="lazy" width="1600" height="900"></a>
-          <dl class="sim-facts"><div><dt>Planta</dt><dd>~1,300 m² en L</dd></div><div><dt>Niveles</dt><dd>5</dd></div><div><dt>Planta baja</dt><dd>Locales a las dos calles</dd></div><div><dt>Patio interior</dt><dd>~35 cajones</dd></div></dl>
-          <p class="hd-links"><a href="assets/img/hd/escala-edificio-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-edificio-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
-        </div>
-      </div>
-    </article>
-    <article class="sim" id="sim-fabrica">
-      <h3>Fábrica o bodega</h3>
-      <p class="sim-lede">Nave con andenes sobre 13 Sur y patio para tráileres, a 10 minutos de la planta.</p>
-      <div class="sim-grid">
-        <div class="sim-media"><video autoplay muted loop playsinline preload="metadata" poster="assets/img/escala-fabrica-dron.webp" aria-label="Vuelo de dron simulado: Fábrica o bodega"><source src="assets/video/escala-fabrica.mp4" type="video/mp4"></video><span class="tag">Visualización ilustrativa a escala</span></div>
-        <div class="sim-side">
-          <a href="assets/img/hd/escala-fabrica-planta.jpg" target="_blank" rel="noopener"><img src="assets/img/escala-fabrica-planta.webp" alt="Vista en planta a escala: nave industrial de 2,000 m² con andenes y patio de maniobras" loading="lazy" width="1600" height="900"></a>
-          <dl class="sim-facts"><div><dt>Nave</dt><dd>~2,000 m² (50 × 40 m)</dd></div><div><dt>Andenes</dt><dd>4, sobre 13 Sur</dd></div><div><dt>Oficinas</dt><dd>~150 m², dos niveles</dd></div><div><dt>Patio</dt><dd>Para tráileres</dd></div></dl>
-          <p class="hd-links"><a href="assets/img/hd/escala-fabrica-dron.jpg" target="_blank" rel="noopener">Vista de dron en 4K</a> · <a href="assets/img/hd/escala-fabrica-planta.jpg" target="_blank" rel="noopener">Vista en planta en 4K</a></p>
-        </div>
-      </div>
-    </article>
-    <p class="note">Simulaciones hechas sobre la imagen satelital real, respetando las medidas del predio. Las superficies son un programa ilustrativo; el proyecto final depende de la licencia municipal. Los letreros son genéricos y no representan a ninguna marca.</p>
-  </div>
-</section>
-
-<section id="ubicacion" class="ubic" aria-labelledby="t-ubic">
-  <div class="wrap">
-    <h2 id="t-ubic">Del terreno a la planta de Audi hay 7.6 kilómetros.</h2>
-    <p class="lede" style="margin-top:1rem">Audi México arma en San José Chiapa desde 2016. A su alrededor crecieron Ciudad Modelo, proveedores, transportistas y miles de empleos. Lara Grajales es el pueblo consolidado más cercano a la planta, con servicios, escuelas y comercio.</p>
-    <div class="map-wrap">
-      <svg viewBox="0 0 700 320" role="img" aria-label="Esquema de ubicación: el terreno en Rafael Lara Grajales, Audi México a 7.6 km al oriente, Ciudad Modelo y San José Chiapa al oriente, Puebla capital 53 km al poniente">
-        <defs><pattern id="g2" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#EDF0EA" stroke-width="1"/></pattern></defs>
-        <rect width="700" height="320" fill="url(#g2)"/>
-        <g stroke="#56636E" stroke-width="1.5" stroke-dasharray="5 5" fill="none">
-          <path d="M143 183 L435 195"/><path d="M143 183 L307 198"/><path d="M143 183 L600 57"/><path d="M143 183 L84 221"/><path d="M143 183 L20 300"/>
-        </g>
-        <path d="M143 183 L435 195" stroke="#C4372C" stroke-width="3" fill="none"/>
-        <g font-family="Archivo" font-size="13" fill="#15222E">
-          <circle cx="435" cy="195" r="9" fill="#15222E"/><text x="447" y="222" font-weight="800">Planta Audi México</text><text x="447" y="238" fill="#56636E">San José Chiapa</text>
-          <circle cx="307" cy="198" r="6" fill="#5B7C68"/><text x="270" y="226" font-weight="700">Ciudad Modelo</text>
-          <circle cx="600" cy="57" r="6" fill="#5B7C68"/><text x="590" y="40" text-anchor="end" font-weight="700">San José Chiapa</text>
-          <circle cx="84" cy="221" r="5" fill="#5B7C68"/><text x="92" y="246" font-weight="700">Nopalucan</text>
-          <text x="26" y="290" font-weight="700" fill="#56636E">Puebla capital, 53 km</text>
-          <polygon points="135,173 155,173 155,193 131,195" fill="#C4372C"/>
-          <text x="143" y="160" text-anchor="middle" font-weight="850" font-size="15">El terreno</text>
-          <text x="290" y="180" text-anchor="middle" font-weight="800" fill="#C4372C">7.6 km</text>
-        </g>
-      </svg>
-      <ul class="dist" aria-label="Distancias en auto">
-        <li class="hl"><span>Planta Audi México</span><b>7.6 km · 10 min</b></li>
-        <li><span>Ciudad Modelo</span><b>5 km · 11 min</b></li>
-        <li><span>Cabecera de San José Chiapa</span><b>13.5 km · 21 min</b></li>
-        <li><span>Nopalucan</span><b>2.3 km · 4 min</b></li>
-        <li><span>Amozoc, entronque a la autopista</span><b>35 km · 33 min</b></li>
-        <li><span>Ciudad de Puebla</span><b>53 km · 52 min</b></li>
-      </ul>
-    </div>
-    <p class="note">Distancias por carretera calculadas con OpenStreetMap; los tiempos son sin tráfico. Esquema sin escala.</p>
-  </div>
-</section>
-
-<section id="recorrido" aria-labelledby="t-reco">
-  <div class="wrap">
-    <h2 id="t-reco">Recorre el terreno antes de venir.</h2>
-    <p class="lede" style="margin-top:1rem">Fotos reales del predio. El video vertical está animado a partir de una de ellas.</p>
-    <div class="reco-grid">
-      <div class="phone"><video controls muted playsinline preload="metadata" poster="assets/img/recorrido-poster.jpg" aria-label="Recorrido a pie por el terreno"><source src="assets/video/recorrido.mp4" type="video/mp4"></video></div>
-      <div class="gallery">
-        <figure><img src="assets/img/foto-esquina-streetview.webp" alt="La esquina de Calle 9 Poniente y 13 Sur, con la calle pavimentada y el terreno vacío" loading="lazy" width="1200" height="526"><figcaption>La esquina, desde Calle 9 Poniente.</figcaption></figure>
-        <figure><img src="assets/img/foto-vista-sur.webp" alt="El terreno con rastrojo de maíz y casas al fondo" loading="lazy" width="800" height="600"><figcaption>El terreno, con las casas vecinas al fondo.</figcaption></figure>
-        <figure><img src="assets/img/foto-campo-niebla.webp" alt="El terreno con matorral seco en primer plano" loading="lazy" width="800" height="600"><figcaption>El terreno en una mañana con niebla.</figcaption></figure>
-        <figure><img src="assets/img/foto-campo-poniente.webp" alt="El terreno visto desde la calle" loading="lazy" width="800" height="600"><figcaption>El terreno visto desde la calle.</figcaption></figure>
-        <figure><img src="assets/img/mapa-satelite.webp" alt="Vista satelital del terreno entre las calles 9 Poniente y 13 Sur" loading="lazy" width="910" height="676"><figcaption>Vista satelital del predio.</figcaption></figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="vision" class="vision" aria-labelledby="t-vision">
-  <div class="wrap">
-    <h2 id="t-vision">Lo que cabe en 3,473 m² junto a la planta.</h2>
-    <p class="lede" style="margin-top:1rem">Tres usos que tienen sentido aquí. Las imágenes son visualizaciones ilustrativas hechas sobre fotos reales del terreno; el uso final depende del proyecto y de la licencia municipal.</p>
-    <div class="transform">
-      <video autoplay muted loop playsinline preload="none" poster="assets/img/vision-nave.webp" aria-label="Visualización: el terreno vacío se transforma en una nave industrial"><source src="assets/video/transformacion.mp4" type="video/mp4"></video>
-      <span class="tag">Visualización ilustrativa</span>
-    </div>
-    <div class="uses">
-      <article class="use">
-        <div style="position:relative"><img src="assets/img/vision-nave.webp" alt="Visualización de una nave industrial con andenes de carga en el terreno" loading="lazy" width="1600" height="900"><span class="tag">Visualización ilustrativa</span></div>
-        <h3>Bodega o centro de distribución</h3>
-        <p>Para proveedores y transportistas que trabajan con la planta. Andenes sobre 13 Sur y patio de maniobras sin cruzar el pueblo.</p>
-      </article>
-      <article class="use">
-        <div style="position:relative"><img src="assets/img/vision-plaza.webp" alt="Visualización de una plaza comercial de barrio con locales y estacionamiento" loading="lazy" width="1600" height="900"><span class="tag">Visualización ilustrativa</span></div>
-        <h3>Comercio de conveniencia</h3>
-        <p>Una tienda de formato chico o una plaza de locales. La esquina con dos frentes da visibilidad y acceso por las dos calles.</p>
-      </article>
-      <article class="use">
-        <div style="position:relative"><img src="assets/img/vision-vivienda.webp" alt="Visualización de un conjunto de casas de dos pisos con calle privada" loading="lazy" width="1600" height="900"><span class="tag">Visualización ilustrativa</span></div>
-        <h3>Vivienda</h3>
-        <p>Un conjunto pequeño de casas o departamentos en renta para quienes trabajan en el corredor y prefieren vivir en un pueblo con servicios.</p>
-      </article>
-    </div>
+    <h2 id="t-docs">Documentos listos para tu revisión.</h2>
+    <p class="lede" style="margin-top:1rem">Se comparten completos con interesados después de una primera llamada.</p>
+    <ul class="doc-list">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><div><strong>Escritura pública 3,751</strong><span>Notaría 20 de Puebla, octubre de 2000. Inscrita en el Registro Público de Tepeaca.</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><div><strong>Certificado de libertad de gravamen</strong><span>Registro Público de Tepeaca, noviembre de 2025. Sin gravámenes ni limitaciones; con firma electrónica verificable.</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><div><strong>Avalúo técnico con plano</strong><span>Enero de 2016, por ingeniero civil con cédula. Medidas, colindancias, datos catastrales y fotos.</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><div><strong>Cancelación de hipoteca</strong><span>La hipoteca anterior al año 2000 quedó cancelada e inscrita en el Registro Público en diciembre de 2000.</span></div></li>
+    </ul>
   </div>
 </section>
 
@@ -541,19 +599,6 @@ footer strong{color:var(--white)}
   </div>
 </section>
 
-<section class="docs" aria-labelledby="t-docs">
-  <div class="wrap">
-    <h2 id="t-docs">Documentos listos para tu revisión.</h2>
-    <p class="lede" style="margin-top:1rem">Se comparten completos con interesados después de una primera llamada.</p>
-    <ul class="doc-list">
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><div><strong>Escritura pública 3,751</strong><span>Notaría 20 de Puebla, octubre de 2000. Inscrita en el Registro Público de Tepeaca.</span></div></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><div><strong>Certificado de libertad de gravamen</strong><span>Registro Público de Tepeaca, noviembre de 2025. Sin gravámenes ni limitaciones; con firma electrónica verificable.</span></div></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><div><strong>Avalúo técnico con plano</strong><span>Enero de 2016, por ingeniero civil con cédula. Medidas, colindancias, datos catastrales y fotos.</span></div></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><div><strong>Cancelación de hipoteca</strong><span>La hipoteca anterior al año 2000 quedó cancelada e inscrita en el Registro Público en diciembre de 2000.</span></div></li>
-    </ul>
-  </div>
-</section>
-
 <section id="contacto" class="contact" aria-labelledby="t-contacto">
   <div class="wrap contact-grid">
     <div>
@@ -582,11 +627,12 @@ footer strong{color:var(--white)}
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
         Enviar por WhatsApp
       </button>
+      <p class="form-hint">Se abre WhatsApp con tu mensaje ya escrito; solo falta enviarlo.</p>
     </form>
   </div>
 </section>
 
-<section aria-labelledby="t-faq">
+<section id="preguntas" aria-labelledby="t-faq">
   <div class="wrap">
     <h2 id="t-faq">Preguntas frecuentes</h2>
     <div class="faq-wrap">
@@ -609,22 +655,111 @@ footer strong{color:var(--white)}
   </div>
 </footer>
 
-<a class="btn btn-wa float-wa" href="https://wa.me/522227611743?text=Hola%2C%20me%20interesa%20el%20terreno%20de%203%2C473%20m%C2%B2%20en%20Rafael%20Lara%20Grajales%20(Lote%20Chiapa)." target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
-  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
-  <span>WhatsApp</span>
-</a>
+<div class="mbar" aria-label="Contacto rápido">
+  <a class="btn btn-wa" href="https://wa.me/522227611743?text=Hola%2C%20me%20interesa%20el%20terreno%20de%203%2C473%20m%C2%B2%20en%20Rafael%20Lara%20Grajales%20(Lote%20Chiapa)." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>WhatsApp</a>
+  <a class="btn btn-call" href="tel:+522227611743"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>Llamar</a>
+</div>
+
+<dialog id="lb" aria-label="Imagen ampliada">
+  <button class="lb-close" type="button" aria-label="Cerrar">&times;</button>
+  <figure><img alt=""><figcaption><span class="lb-cap"></span><a class="lb-open" target="_blank" rel="noopener">Abrir original</a></figcaption></figure>
+</dialog>
 
 <script>
-document.getElementById('lead').addEventListener('submit', function (e) {
-  e.preventDefault();
-  var f = e.target;
-  var interes = (f.querySelector('input[name=interes]:checked') || {}).value || 'el terreno';
-  var nombre = f.nombre.value.trim(), empresa = f.empresa.value.trim(), uso = f.uso.value.trim();
-  var msg = 'Hola, ' + (nombre ? 'soy ' + nombre + (empresa ? ' de ' + empresa : '') + '. ' : '') +
-    'Me interesa ' + interes + ' de 3,473 m² en Rafael Lara Grajales (Lote Chiapa).' +
-    (uso ? ' Lo quiero para: ' + uso + '.' : '');
-  window.open('https://wa.me/522227611743?text=' + encodeURIComponent(msg), '_blank', 'noopener');
-});
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var top = document.querySelector('.top'), menu = document.getElementById('menu'), btn = document.querySelector('.menu-btn');
+  var mbar = document.querySelector('.mbar'), hero = document.querySelector('.hero'), contact = document.getElementById('contacto');
+
+  /* encabezado sólido después del hero y barra de contacto en celular */
+  function onScroll() {
+    var y = window.scrollY, h = hero.offsetHeight;
+    top.classList.toggle('solid', y > 40);
+    var c = contact.getBoundingClientRect();
+    mbar.classList.toggle('show', y > h * 0.6 && !(c.top < innerHeight && c.bottom > 0));
+  }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* menú en pantallas chicas */
+  function setMenu(open) {
+    menu.classList.toggle('open', open); top.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open); btn.querySelector('.menu-label').textContent = open ? 'Cerrar' : 'Menú';
+  }
+  btn.addEventListener('click', function () { setMenu(!menu.classList.contains('open')); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); btn.focus(); } });
+
+  /* marcar la sección y la simulación en pantalla */
+  function spy(links, rootMargin) {
+    var map = {};
+    links.forEach(function (a) { var el = document.querySelector(a.getAttribute('href')); if (el) map[el.id] = a; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        links.forEach(function (a) { a.removeAttribute('aria-current'); });
+        var a = map[en.target.id]; a.setAttribute('aria-current', 'true');
+        if (a.parentNode.classList.contains('sim-index')) a.parentNode.scrollTo({ left: a.offsetLeft - 16, behavior: reduce ? 'auto' : 'smooth' });
+      });
+    }, { rootMargin: rootMargin });
+    Object.keys(map).forEach(function (id) { io.observe(document.getElementById(id)); });
+  }
+  spy([].slice.call(menu.querySelectorAll('a')), '-45% 0px -50% 0px');
+  spy([].slice.call(document.querySelectorAll('.sim-index a')), '-40% 0px -55% 0px');
+
+  /* videos: solo se reproducen mientras están en pantalla */
+  var vids = document.querySelectorAll('video[data-auto]');
+  if (reduce) {
+    vids.forEach(function (v) { v.controls = true; });
+    var hv = hero.querySelector('video'); if (hv) { hv.removeAttribute('autoplay'); hv.pause(); }
+  } else {
+    var vio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var v = en.target;
+        if (en.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () { v.controls = true; }); }
+        else v.pause();
+      });
+    }, { threshold: 0.35 });
+    vids.forEach(function (v) { vio.observe(v); });
+  }
+
+  /* ampliar imágenes dentro de la página */
+  var lb = document.getElementById('lb');
+  if (lb && lb.showModal) {
+    var lbImg = lb.querySelector('img'), lbCap = lb.querySelector('.lb-cap'), lbOpen = lb.querySelector('.lb-open'), last;
+    document.querySelectorAll('.gallery img').forEach(function (img) {
+      var a = document.createElement('a'); a.href = img.currentSrc || img.src;
+      img.parentNode.insertBefore(a, img); a.appendChild(img);
+    });
+    document.querySelectorAll('a[href$=".jpg"], a[href$=".webp"]').forEach(function (a) {
+      var img = a.querySelector('img'); if (!img) return;
+      a.classList.add('zoom'); a.setAttribute('aria-label', 'Ampliar: ' + img.alt);
+      a.addEventListener('click', function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+        e.preventDefault(); last = a;
+        var big = a.getAttribute('href'), is4k = /\/hd\//.test(big);
+        lbImg.src = img.currentSrc || img.src; lbImg.alt = img.alt;
+        lbCap.textContent = img.alt;
+        lbOpen.href = big; lbOpen.textContent = is4k ? 'Abrir original en 4K' : 'Abrir original';
+        if (big !== lbImg.src) { var pre = new Image(); pre.onload = function () { if (lb.open && lbOpen.href === pre.src) lbImg.src = big; }; pre.src = big; }
+        lb.showModal();
+      });
+    });
+    lb.addEventListener('click', function (e) { if (e.target === lb || e.target.closest('.lb-close') || e.target === lb.querySelector('figure')) lb.close(); });
+    lb.addEventListener('close', function () { lbImg.removeAttribute('src'); if (last) last.focus(); });
+  }
+
+  /* formulario: arma el mensaje y abre WhatsApp */
+  document.getElementById('lead').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target;
+    var interes = (f.querySelector('input[name=interes]:checked') || {}).value || 'el terreno';
+    var nombre = f.nombre.value.trim(), empresa = f.empresa.value.trim(), uso = f.uso.value.trim();
+    var msg = 'Hola, ' + (nombre ? 'soy ' + nombre + (empresa ? ' de ' + empresa : '') + '. ' : '') +
+      'Me interesa ' + interes + ' de 3,473 m² en Rafael Lara Grajales (Lote Chiapa).' +
+      (uso ? ' Lo quiero para: ' + uso + '.' : '');
+    window.open('https://wa.me/522227611743?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+  });
+})();
 </script>
 </body>
 </html>
